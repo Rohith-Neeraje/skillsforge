@@ -127,19 +127,20 @@ function SkyDome() {
     uHorizon2:  { value: new THREE.Color('#8A3060') },   // low horizon magenta
     uMid1:      { value: new THREE.Color('#5A3060') },   // lower mid dusty purple
     uMid2:      { value: new THREE.Color('#2A3060') },   // mid deep blue-purple
-    uTop1:      { value: new THREE.Color('#263A68') },   // upper mid blue
-    uTop2:      { value: new THREE.Color('#3B5C8F') },   // visible zenith: never reads as a void
+    uTop1:      { value: new THREE.Color('#36598A') },   // saturated upper-sky blue
+    uTop2:      { value: new THREE.Color('#5B86B8') },   // bright zenith: always reads as a covered dome
     uGlowColor: { value: new THREE.Color('#F09050') },   // warm glow
   }), []);
 
   return (
-    <mesh>
-      <sphereGeometry args={[160, 64, 48]} />
+    <mesh renderOrder={-1}>
+      <sphereGeometry args={[190, 64, 48]} />
       <shaderMaterial
         side={THREE.BackSide}
         vertexShader={skyVertShader}
         fragmentShader={skyFragShader}
         uniforms={uniforms}
+        depthTest={false}
         depthWrite={false}
       />
     </mesh>
@@ -545,12 +546,7 @@ function Ground() {
 
   return (
     <mesh geometry={geo} receiveShadow>
-      <meshStandardMaterial
-        color="#7A3E1D"
-        vertexColors
-        roughness={0.96}
-        metalness={0}
-      />
+      <meshStandardMaterial color="#6E3515" roughness={0.96} metalness={0} />
     </mesh>
   );
 }

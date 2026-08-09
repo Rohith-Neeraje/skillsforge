@@ -35,6 +35,20 @@ export default function TutorialOverlay({ visible, onDismiss }: TutorialOverlayP
     setStep(0);
   }, [visible]);
 
+  useEffect(() => {
+    if (!visible) return;
+
+    const advanceWithEnter = (event: KeyboardEvent) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      if (step < steps.length - 1) setStep((current) => current + 1);
+      else onDismiss();
+    };
+
+    window.addEventListener('keydown', advanceWithEnter);
+    return () => window.removeEventListener('keydown', advanceWithEnter);
+  }, [onDismiss, step, visible]);
+
   if (!visible) return null;
 
   const current = steps[step];
@@ -107,7 +121,7 @@ export default function TutorialOverlay({ visible, onDismiss }: TutorialOverlayP
                 color: '#000',
               }}
             >
-              Next
+              Next (Enter)
             </button>
           ) : (
             <button
@@ -118,7 +132,7 @@ export default function TutorialOverlay({ visible, onDismiss }: TutorialOverlayP
                 color: '#000',
               }}
             >
-              Start Playing!
+              Start Playing! (Enter)
             </button>
           )}
         </div>
