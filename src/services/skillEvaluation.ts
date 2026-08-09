@@ -1,5 +1,4 @@
 import { LevelConfig, EvaluationResult } from '../types/challenge';
-import { supabase } from './supabase';
 
 /**
  * Evaluates a skill by calling the Supabase Edge Function.
@@ -121,23 +120,22 @@ function localFallbackEvaluation(skill: string, level: LevelConfig): EvaluationR
 export async function evaluateSkill(
   skill: string,
   level: LevelConfig,
-  userId?: string,
 ): Promise<EvaluationResult> {
   try {
-    const { data, error } = await supabase.functions.invoke('evaluate-skill', {
-      body: {
+    const response = await fetch('/api/evaluate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         level: level.id,
         skillContent: skill,
-        userId: userId || 'anonymous',
-      },
+      }),
     });
-
-    if (error) {
-      console.warn('Edge Function error, falling back to local eval:', error.message);
+    if (!response.ok) {
+      console.warn('Evaluation API error, falling back to local eval:', response.status);
       return localFallbackEvaluation(skill, level);
     }
-
-    if (!data || typeof data.score !== 'number') {
+    const data: unknown = await response.json();
+    if (!data || typeof data !== 'object' || typeof (data as { score?: unknown }).score !== 'number') {
       console.warn('Invalid Edge Function response, falling back to local eval');
       return localFallbackEvaluation(skill, level);
     }
