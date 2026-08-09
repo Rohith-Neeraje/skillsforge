@@ -15,6 +15,8 @@ interface PlayerControlsProps {
 
 const MOVE_SPEED = 5;
 const MOUSE_SENSITIVITY = 0.002;
+// Avoid the exact Euler poles while still allowing the player to look virtually straight up/down.
+const MAX_PITCH = Math.PI / 2 - 0.02;
 
 // World boundary — floor is 80×80, so keep player well inside it
 const PLAYER_BOUNDARY = 36;
@@ -143,7 +145,7 @@ const PlayerControls = forwardRef<PlayerControlsHandle, PlayerControlsProps>(
         if (document.pointerLockElement) {
           yaw.current -= e.movementX * MOUSE_SENSITIVITY;
           pitch.current -= e.movementY * MOUSE_SENSITIVITY;
-          pitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch.current));
+          pitch.current = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch.current));
           return;
         }
 
@@ -153,7 +155,7 @@ const PlayerControls = forwardRef<PlayerControlsHandle, PlayerControlsProps>(
         lastMouse.current = { x: e.clientX, y: e.clientY };
         yaw.current -= dx * MOUSE_SENSITIVITY;
         pitch.current -= dy * MOUSE_SENSITIVITY;
-        pitch.current = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, pitch.current));
+        pitch.current = Math.max(-MAX_PITCH, Math.min(MAX_PITCH, pitch.current));
       };
 
       const onMouseUp = () => { isDragging.current = false; };

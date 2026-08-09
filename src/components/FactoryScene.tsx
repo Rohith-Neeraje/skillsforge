@@ -56,10 +56,12 @@ function fbm(x: number, y: number, oct = 4): number {
    Palette — dark sunset desert
    ========================================== */
 const C = {
-  sandDark:   new THREE.Color('#2A1A0F'),
-  sandMid:    new THREE.Color('#4A2E1A'),
-  sandLight:  new THREE.Color('#6B4230'),
-  shadowDust: new THREE.Color('#2D1F30'),
+  // Keep the terrain recognisably sandy under the saturated sunset lights.
+  // These colours intentionally sit away from the sky's magenta/blue range.
+  sandDark:   new THREE.Color('#573117'),
+  sandMid:    new THREE.Color('#A9652D'),
+  sandLight:  new THREE.Color('#E2A55C'),
+  shadowDust: new THREE.Color('#382117'),
   rockDark:   new THREE.Color('#1F1520'),
   rockMid:    new THREE.Color('#3A2540'),
   treeTrunk:  new THREE.Color('#1A1215'),
@@ -125,8 +127,8 @@ function SkyDome() {
     uHorizon2:  { value: new THREE.Color('#8A3060') },   // low horizon magenta
     uMid1:      { value: new THREE.Color('#5A3060') },   // lower mid dusty purple
     uMid2:      { value: new THREE.Color('#2A3060') },   // mid deep blue-purple
-    uTop1:      { value: new THREE.Color('#1A2040') },   // upper mid
-    uTop2:      { value: new THREE.Color('#080C1A') },   // zenith near-black
+    uTop1:      { value: new THREE.Color('#263A68') },   // upper mid blue
+    uTop2:      { value: new THREE.Color('#3B5C8F') },   // visible zenith: never reads as a void
     uGlowColor: { value: new THREE.Color('#F09050') },   // warm glow
   }), []);
 
@@ -543,7 +545,12 @@ function Ground() {
 
   return (
     <mesh geometry={geo} receiveShadow>
-      <meshStandardMaterial vertexColors roughness={0.85} metalness={0.1} flatShading />
+      <meshStandardMaterial
+        color="#7A3E1D"
+        vertexColors
+        roughness={0.96}
+        metalness={0}
+      />
     </mesh>
   );
 }
@@ -997,11 +1004,11 @@ export default function FactoryScene() {
         shadow-camera-top={30}
         shadow-camera-bottom={-30}
       />
-      {/* Blue ambient fill from sky overhead */}
+      {/* Cool ambient fill makes dune crests and warm sand colours legible. */}
       <directionalLight
         position={[10, 30, 5]}
-        intensity={0.6}
-        color="#4A6A9A"
+        intensity={0.45}
+        color="#6D88B5"
       />
       {/* Purple / dusty fill from opposite side */}
       <directionalLight
@@ -1025,7 +1032,7 @@ export default function FactoryScene() {
       />
       {/* Hemisphere — purple-warm top, blue-atmospheric bottom */}
       <hemisphereLight
-        args={['#5A3060', '#1A2040', 0.9]}
+        args={['#6076A5', '#3B2417', 0.75]}
       />
 
       {/* ── Sky wrapper (follows player) ───────── */}
