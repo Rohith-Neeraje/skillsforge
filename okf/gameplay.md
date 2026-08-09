@@ -13,7 +13,7 @@ The HUD starts a session and synchronously requests player control locking. The 
 
 Each challenge definition supplies story content, requirements, evaluator criteria, XP breakdown, fail conditions, reward, worker presentation, and world position. `isLevelUnlocked` always unlocks `guardrails`; later levels may name a prerequisite using `unlockCondition`.
 
-The submitted Markdown is evaluated before `useGameState` records completion, XP, and badges. The current code creates a local in-memory game state; the persistence service is available for Supabase integration. Challenge data, scoring types, and results are described in [interface model](./interfaces.md).
+The submitted Markdown is evaluated before `useGameState` records completion, XP, and badges. The current code keeps game state in the browser for the active session. Challenge data, scoring types, and results are described in [interface model](./interfaces.md).
 
 # Current levels
 

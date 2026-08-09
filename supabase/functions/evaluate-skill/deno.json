@@ -1,1 +1,0 @@
-{"compilerOptions":{"allowJs":true,"lib":["deno","esnext"],"strict":true,"target":"esnext"},"importMap":"./import_map.json"}

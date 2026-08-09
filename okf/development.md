@@ -3,13 +3,13 @@ type: Development Guide
 title: Local development and verification
 description: Required runtimes, project commands, Conda activation, and visual acceptance checks.
 resource: ./package.json
-tags: [development, conda, vite, verification]
+tags: [development, conda, nextjs, verification]
 timestamp: 2026-08-09T00:00:00+05:30
 ---
 
 # Local setup
 
-The project uses the system Node.js installation for Vite and the new Conda environment named `skillsforge` for Python-based tooling. Activate it with:
+The project uses the system Node.js installation for Next.js and the Conda environment named `skillsforge` for Python-based tooling. Activate it with:
 
 ```powershell
 conda activate skillsforge
@@ -23,7 +23,10 @@ The environment contains Python 3.12. Node.js is not managed by Conda. In PowerS
 npm.cmd install
 npm.cmd run dev
 npm.cmd run build
+npm.cmd run start
 ```
+
+Set `FEATHERLESS_API_KEY` in `.env.local` to enable live AI evaluation. Without it, the game remains usable through its local fallback evaluator.
 
 # Visual verification
 

@@ -1,8 +1,8 @@
 import { LevelConfig, EvaluationResult } from '../types/challenge';
 
 /**
- * Evaluates a skill by calling the Supabase Edge Function.
- * Falls back to local regex evaluation if the Edge Function is unavailable.
+ * Evaluates a skill through the Next.js server route.
+ * Falls back to local regex evaluation if the route is unavailable.
  */
 
 // Simple regex-based fallback evaluation
